@@ -1,0 +1,11 @@
+[mysqld]
+bind-address = 0.0.0.0
+port = 3306
+
+datadir = /var/lib/mysql
+user = mysql
+pid-file = /run/mysqld/mysqld.pid
+socket = /run/mysqld/mysqld.sock
+
+innodb_buffer_pool_size = 64M
+max_connections = 50
