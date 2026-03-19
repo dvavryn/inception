@@ -19,11 +19,7 @@ services:
     secrets:
       - db_password
       - db_root_password
-    environment:
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_USER_PASSWORD_FILE: /run/secrets/db_password
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+    env_file: .env
   wordpress:
     build: ./requirements/wordpress
     container_name: wordpress
@@ -38,11 +34,7 @@ services:
     secrets:
       - credentials
       - db_password
-    environment:
-      MYSQL_DATABASE: wordpress
-      MYSQL_USER: wordpress
-      MYSQL_USER_PASSWORD_FILE: /run/secrets/db_password
-      CREDENTIALS_FILE: /run/secrets/credentials
+    env_file: .env
   nginx:
     build: ./requirements/nginx
     container_name: nginx
