@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+MYSQL_ROOT_PASSWORD=$(cat $MYSQL_ROOT_PASSWORD_FILE)
+MYSQL_USER_PASSWORD=$(cat $MYSQL_USER_PASSWORD_FILE)
+
+
+
 echo Creating socket directory...
 if [ ! -d /run/mysqld ]; then
     mkdir -p /run/mysqld
@@ -21,32 +26,23 @@ while ! mysqladmin ping --silent 2>/dev/null; do
     sleep 1
 done
 
-# echo Running setup SQL
-# mysql -u root << SQL
-# CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};
-# CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_PASSWORD}';
-# GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* to '${MYSQL_USER}'@'%';
-# ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
-# FLUSH PRIVILEGES;
-# SQL
-
 if mysql -u root -e "SELECT 1" 2>/dev/null; then
     MYSQL_AUTH="-u root"
 else
-    MYSQL_AUTH="-u root -proot_password"
+    MYSQL_AUTH="-u root -p${MYSQL_ROOT_PASSWORD}"
 fi
 
 echo Running setup SQL
 mysql $MYSQL_AUTH << SQL
-CREATE DATABASE IF NOT EXISTS wordpress;
-CREATE USER IF NOT EXISTS 'wp_user'@'%' IDENTIFIED BY 'user_password';
-GRANT ALL PRIVILEGES ON wordpress.* to 'wp_user'@'%';
-ALTER USER 'root'@'localhost' IDENTIFIED BY 'root_password';
+CREATE DATABASE IF NOT EXISTS ${MYSQL_DATABASE};
+CREATE USER IF NOT EXISTS '${MYSQL_USER}'@'%' IDENTIFIED BY '${MYSQL_USER_PASSWORD}';
+GRANT ALL PRIVILEGES ON ${MYSQL_DATABASE}.* to '${MYSQL_USER}'@'%';
+ALTER USER 'root'@'localhost' IDENTIFIED BY '${MYSQL_ROOT_PASSWORD}';
 FLUSH PRIVILEGES;
 SQL
 
 echo Setup complete! Stopping MariaDB temporary...
-mysqladmin -u root -p"root_password" shutdown
+mysqladmin -u root -p${MYSQL_ROOT_PASSWORD} shutdown
 wait $MYSQL_PID
 
 echo Starting MariaDB for real...

@@ -4,11 +4,14 @@ all: setup
 	@docker compose -f $(COMPOSE) up -d --build
 
 setup:
-	@mkdir -p /home/dvavryn/data/wp
-	@mkdir -p /home/dvavryn/data/db
+	@mkdir -p /home/dvavryn/data/wordpress
+	@mkdir -p /home/dvavryn/data/mariadb
 
 up:
 	@docker compose -f $(COMPOSE) up -d
+
+build:
+	@docker compose -f $(COMPOSE) build --no-cache
 
 down:
 	@docker compose -f $(COMPOSE) down
@@ -21,8 +24,8 @@ start:
 
 clean: down
 	@docker system prune -af
-	@sudo rm -rf /home/dvavryn/data/wp/*
-	@sudo rm -rf /home/dvavryn/data/db/*
+	@sudo rm -rf /home/dvavryn/data/wordpress/*
+	@sudo rm -rf /home/dvavryn/data/mariadb/*
 
 fclean: clean
 	@docker volume prune -f
@@ -31,8 +34,8 @@ fclean: clean
 re: fclean all
 
 delete: down
-	@sudo rm -rf /home/dvavryn/data/wp/*
-	@sudo rm -rf /home/dvavryn/data/db/*
+	@sudo rm -rf /home/dvavryn/data/wordpress/*
+	@sudo rm -rf /home/dvavryn/data/mariadb/*
 
 logs:
 	@docker compose -f $(COMPOSE) logs -f
