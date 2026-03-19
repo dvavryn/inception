@@ -1,0 +1,54 @@
+# REMOVE THE SECRETS AND CREDENTIALS!!!!!
+
+services:
+  mariadb:
+    build: ./requirements/mariadb
+    container_name: mariadb
+    image: mariadb
+    volumes:
+      - db_volume:/var/lib/mysql
+    networks:
+      - inception
+    restart: always
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    image: wordpress
+    volumes:
+      - wp_volume:/var/www/html
+    restart: always
+    networks:
+      - inception
+    depends_on:
+      - mariadb
+  nginx:
+    build: ./requirements/nginx
+    container_name: nginx
+    image: nginx
+    volumes:
+      - wp_volume:/var/www/html
+    restart: always
+    networks:
+      - inception
+    depends_on:
+      - wordpress
+    ports:
+      - "443:443"
+
+volumes:
+  db_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/dvavryn/data/db
+  wp_volume:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/dvavryn/data/wp
+
+networks:
+  inception:
+    driver: bridge
