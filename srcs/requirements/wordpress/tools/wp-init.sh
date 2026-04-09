@@ -10,14 +10,14 @@ WP_USER=$(cat $CREDENTIALS_FILE | grep wp_user_user | awk '{print $2}')
 WP_USER_PASSWORD=$(cat $CREDENTIALS_FILE | grep wp_user_password | awk '{print $2}')
 WP_USER_EMAIL=$(cat $CREDENTIALS_FILE | grep wp_user_email | awk '{print $2}')
 
-echo "MYSQLUSERPASSWORD='$MYSQL_USER_PASSWORD'"
-echo "HOSTNAME='$HOSTNAME'"
-echo "WPADMINUSER='$WP_ADMIN_USER'"
-echo "WPADMINPASSWORD='$WP_ADMIN_PASSWORD'"
-echo "WPADMINEMAIL='$WP_ADMIN_EMAIL'"
-echo "WPUSER='$WP_USER'"
-echo "WPUSERPASSWORD='$WP_USER_PASSWORD'"
-echo "WPUSEREMAIL='$WP_USER_EMAIL'"
+# echo "MYSQLUSERPASSWORD='$MYSQL_USER_PASSWORD'"
+# echo "HOSTNAME='$HOSTNAME'"
+# echo "WPADMINUSER='$WP_ADMIN_USER'"
+# echo "WPADMINPASSWORD='$WP_ADMIN_PASSWORD'"
+# echo "WPADMINEMAIL='$WP_ADMIN_EMAIL'"
+# echo "WPUSER='$WP_USER'"
+# echo "WPUSERPASSWORD='$WP_USER_PASSWORD'"
+# echo "WPUSEREMAIL='$WP_USER_EMAIL'"
 
 echo Waiting for MariaDB...
 while ! mysqladmin ping -h mariadb -u ${MYSQL_USER} -p${MYSQL_USER_PASSWORD} --silent 2>/dev/null; do

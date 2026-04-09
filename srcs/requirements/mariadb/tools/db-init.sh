@@ -4,8 +4,6 @@ set -e
 MYSQL_ROOT_PASSWORD=$(cat $MYSQL_ROOT_PASSWORD_FILE)
 MYSQL_USER_PASSWORD=$(cat $MYSQL_USER_PASSWORD_FILE)
 
-
-
 echo Creating socket directory...
 if [ ! -d /run/mysqld ]; then
     mkdir -p /run/mysqld
