@@ -8,7 +8,7 @@ The stack runs three services:
 |---|---|---|
 |**NGINX**|HTTPS reverse proxy|Port 443 - the only public entry point|
 |**WordPress + PHP-FPM**|The website and its admin panel|Via NGINX (not directly exposed)|
-|**MariaDB**|Database backend|Internal onlu (not accessible from outside)|
+|**MariaDB**|Database backend|Internal only (not accessible from outside)|
 
 The WordPress site is available at `https://dvavryn.42.fr`.
 
@@ -23,7 +23,7 @@ make
 
 **Stop (container down, data preserved):**
 ```bash
-make
+make down
 ```
 
 **Stop without removing containers:**

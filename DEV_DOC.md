@@ -111,7 +111,7 @@ make start
 # Follow all logs
 make logs
 
-# Delete host data onlu (containers already down)
+# Delete host data only (containers already down)
 make delete
 ```
 
@@ -198,7 +198,7 @@ Both volumes use the `local` driver with `type: none` and `o:bin`, which maps th
 
 ### Secrets at runtime
 
-Docker mounts each secret as a read-onlu file inside the container:
+Docker mounts each secret as a read-only file inside the container:
 ```
 /run/secrets/credentials
 /run/secrets/db_password
